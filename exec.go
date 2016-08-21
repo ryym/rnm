@@ -1,13 +1,21 @@
 package rnm
 
+import (
+	"path/filepath"
+)
+
 type result struct {
 	OldPath string
 	NewPath string
-	Renamed bool
+	Error   error
 }
 
 func Exec(opts Option) (results []result, err error) {
-	targetPaths, err := listFiles(opts.Pattern)
+	if opts.From == opts.To {
+		return []result{}, nil
+	}
+
+	targetPaths, err := listFiles(opts)
 
 	if err != nil {
 		return nil, err
@@ -17,7 +25,7 @@ func Exec(opts Option) (results []result, err error) {
 	renamer := actualRenamer{}
 
 	for i, path := range targetPaths {
-		dirPath, fileName := splitPath(path)
+		dirPath, fileName := filepath.Split(path)
 
 		newName := convert(fileName, convertOption{
 			From:     opts.From,
@@ -34,14 +42,10 @@ func Exec(opts Option) (results []result, err error) {
 			Dryrun:  opts.Dryrun,
 		})
 
-		if err != nil {
-			return nil, err
-		}
-
 		results[i] = result{
 			OldPath: oldPath,
 			NewPath: newPath,
-			Renamed: err == nil,
+			Error:   err,
 		}
 	}
 
