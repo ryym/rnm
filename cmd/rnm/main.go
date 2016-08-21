@@ -12,21 +12,19 @@ func main() {
 	helpOpts := rnm.HelpOption{}
 
 	parser := makeArgsParser(&opts, &helpOpts)
-	args, err := parser.Parse()
+	patterns, err := parser.Parse()
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 
-	if len(args) < 1 || helpOpts.Help {
+	if len(patterns) < 1 || helpOpts.Help {
 		parser.WriteHelp(os.Stdout)
 		return
 	}
 
-	// TODO: Accept multiple file names (e.g. rnm -f a -r b dir/*)
-	pattern := args[0]
-	results, err := rnm.Exec(pattern, opts)
+	results, err := rnm.Exec(patterns, opts)
 
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
