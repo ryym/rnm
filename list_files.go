@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func listFiles(opts Option) (paths []string, err error) {
-	matchedPaths, err := filepath.Glob(opts.Pattern)
+func listFiles(pattern string, opts Option) (paths []string, err error) {
+	matchedPaths, err := filepath.Glob(pattern)
 	if err != nil {
 		return nil, err
 	}

@@ -10,12 +10,12 @@ type result struct {
 	Error   error
 }
 
-func Exec(opts Option) (results []result, err error) {
+func Exec(pattern string, opts Option) (results []result, err error) {
 	if opts.From == opts.To {
 		return []result{}, nil
 	}
 
-	targetPaths, err := listFiles(opts)
+	targetPaths, err := listFiles(pattern, opts)
 
 	if err != nil {
 		return nil, err
