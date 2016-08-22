@@ -1,0 +1,5 @@
+vendors:
+- path: github.com/jessevdk/go-flags
+  rev: f2785f5820ec967043de79c8be97edfc464ca745
+- path: github.com/mattn/go-zglob
+  rev: 2dbd7f37a45e993d5180a251b4bdd314d6333b70

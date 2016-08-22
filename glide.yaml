@@ -1,4 +1,0 @@
-package: github.com/ryym/rnm
-import:
-- package: github.com/jessevdk/go-flags
-- package: github.com/mattn/go-zglob

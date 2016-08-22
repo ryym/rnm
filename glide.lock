@@ -1,8 +1,0 @@
-hash: 05e2e72fa1061c9da2a4f30b116672f62dac4cc92af3aea306e9f35ff4ce541c
-updated: 2016-08-21T18:56:17.342078225+09:00
-imports:
-- name: github.com/jessevdk/go-flags
-  version: 37c8226983775d404b6edfebd44be1078bd0fe95
-- name: github.com/mattn/go-zglob
-  version: 2dbd7f37a45e993d5180a251b4bdd314d6333b70
-testImports: []
