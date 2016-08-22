@@ -15,7 +15,7 @@ func Exec(patterns []string, opts Option) (results []result, err error) {
 		return []result{}, nil
 	}
 
-	targetPaths, err := listFiles(patterns, opts)
+	targetPaths, err := listFiles(zGlobber{}, patterns, opts)
 
 	if err != nil {
 		return nil, err

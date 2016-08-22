@@ -1,14 +1,13 @@
 package rnm
 
 import (
-	"github.com/mattn/go-zglob"
 	"strings"
 )
 
-func listFiles(patterns []string, opts Option) (targetPaths []string, err error) {
+func listFiles(globber Globber, patterns []string, opts Option) (targetPaths []string, err error) {
 	matchedPaths := []string{}
 	for _, pattern := range patterns {
-		paths, err := zglob.Glob(pattern)
+		paths, err := globber.Glob(pattern)
 		if err != nil {
 			return nil, err
 		}
