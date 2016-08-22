@@ -1,22 +1,21 @@
 package rnm
 
 import (
-	"path/filepath"
+	"github.com/mattn/go-zglob"
 	"strings"
 )
 
 func listFiles(patterns []string, opts Option) (targetPaths []string, err error) {
 	matchedPaths := []string{}
 	for _, pattern := range patterns {
-
-		// XXX: Glob returns an empty array when the pattern contains
-		// some invalid characters like spaces.
-		paths, err := filepath.Glob(pattern)
+		paths, err := zglob.Glob(pattern)
 		if err != nil {
 			return nil, err
 		}
 		matchedPaths = append(matchedPaths, paths...)
 	}
+
+	matchedPaths = removeDuplicatePaths(matchedPaths)
 
 	targetPaths = []string{}
 	for _, path := range matchedPaths {
@@ -26,4 +25,18 @@ func listFiles(patterns []string, opts Option) (targetPaths []string, err error)
 	}
 
 	return targetPaths, err
+}
+
+func removeDuplicatePaths(paths []string) []string {
+	pathsAdded := make(map[string]bool)
+	uniqPaths := []string{}
+
+	for _, path := range paths {
+		if !pathsAdded[path] {
+			pathsAdded[path] = true
+			uniqPaths = append(uniqPaths, path)
+		}
+	}
+
+	return uniqPaths
 }
