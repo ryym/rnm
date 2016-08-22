@@ -1,5 +1,9 @@
 # rnm
 
+[![travis][travis-badge]](https://travis-ci.org/ryym/rnm)
+
+[travis-badge]: https://travis-ci.org/ryym/rnm.svg?branch=travis
+
 Batch rename files and folders.
 This project is a Go implementation of [75lb/renamer](https://github.com/75lb/renamer).
 
