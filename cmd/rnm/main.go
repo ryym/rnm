@@ -37,7 +37,7 @@ func main() {
 
 func makeArgsParser(opts *rnm.Option, helpOpts *rnm.HelpOption) *flags.Parser {
 	parser := flags.NewParser(opts, flags.PassDoubleDash)
-	parser.AddGroup("Help Options", helpOpts)
+	parser.AddGroup("Help Options", "", helpOpts)
 	parser.Usage = "[OPTIONS] <files>"
 	return parser
 }
