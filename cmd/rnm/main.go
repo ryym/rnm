@@ -4,35 +4,41 @@ import (
 	"fmt"
 	"github.com/jessevdk/go-flags"
 	"github.com/ryym/rnm"
-	"os"
+	"github.com/ryym/rnm/format"
+	// "os"
 )
 
 func main() {
-	opts := rnm.Option{}
-	helpOpts := rnm.HelpOption{}
+	// opts := rnm.Option{}
+	// helpOpts := rnm.HelpOption{}
 
-	parser := makeArgsParser(&opts, &helpOpts)
-	patterns, err := parser.Parse()
+	// parser := makeArgsParser(&opts, &helpOpts)
+	// patterns, err := parser.Parse()
 
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+	// if err != nil {
+	// 	fmt.Fprintln(os.Stderr, err)
+	// 	os.Exit(1)
+	// }
+
+	// if len(patterns) < 1 || helpOpts.Help {
+	// 	parser.WriteHelp(os.Stdout)
+	// 	return
+	// }
+
+	// results, err := rnm.Exec(patterns, opts)
+
+	// if err != nil {
+	// 	fmt.Fprintln(os.Stderr, err)
+	// 	os.Exit(1)
+	// }
+
+	results := []rnm.Result{
+		{ "OLD", "NEW", nil },
+		{ "OLD", "NEW", nil },
+		{ "OLD", "NEW", nil },
 	}
 
-	if len(patterns) < 1 || helpOpts.Help {
-		parser.WriteHelp(os.Stdout)
-		return
-	}
-
-	results, err := rnm.Exec(patterns, opts)
-
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
-
-	// TODO: Print pretty results.
-	fmt.Println(results)
+	fmt.Println(format.FormatResults(results))
 }
 
 func makeArgsParser(opts *rnm.Option, helpOpts *rnm.HelpOption) *flags.Parser {
