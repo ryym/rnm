@@ -36,6 +36,7 @@ func main() {
 		{ "OLD", "NEW", nil },
 		{ "OLD", "NEW", nil },
 		{ "OLD", "NEW", nil },
+		{ "OLD", "NEW", &rnm.NewPathExistError{"NEW"} },
 	}
 
 	fmt.Println(format.FormatResults(results))
