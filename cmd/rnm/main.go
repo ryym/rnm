@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/jessevdk/go-flags"
 	"github.com/ryym/rnm"
+	"github.com/ryym/rnm/format"
 	"os"
 )
 
@@ -31,8 +32,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	// TODO: Print pretty results.
-	fmt.Println(results)
+	output := format.FormatResults(results, opts)
+	fmt.Println(output)
 }
 
 func makeArgsParser(opts *rnm.Option, helpOpts *rnm.HelpOption) *flags.Parser {
