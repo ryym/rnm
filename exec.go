@@ -4,15 +4,15 @@ import (
 	"path/filepath"
 )
 
-type result struct {
+type Result struct {
 	OldPath string
 	NewPath string
 	Error   error
 }
 
-func Exec(patterns []string, opts Option) (results []result, err error) {
+func Exec(patterns []string, opts Option) (results []Result, err error) {
 	if opts.From == opts.To {
-		return []result{}, nil
+		return []Result{}, nil
 	}
 
 	targetPaths, err := listFiles(zGlobber{}, patterns, opts)
@@ -21,7 +21,7 @@ func Exec(patterns []string, opts Option) (results []result, err error) {
 		return nil, err
 	}
 
-	results = make([]result, len(targetPaths))
+	results = make([]Result, len(targetPaths))
 	renamer := actualRenamer{}
 
 	for i, path := range targetPaths {
@@ -42,7 +42,7 @@ func Exec(patterns []string, opts Option) (results []result, err error) {
 			Dryrun:  opts.Dryrun,
 		})
 
-		results[i] = result{
+		results[i] = Result{
 			OldPath: oldPath,
 			NewPath: newPath,
 			Error:   err,

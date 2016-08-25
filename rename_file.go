@@ -4,11 +4,11 @@ import (
 	"fmt"
 )
 
-type newPathExistError struct {
+type NewPathExistError struct {
 	NewPath string
 }
 
-func (e *newPathExistError) Error() string {
+func (e *NewPathExistError) Error() string {
 	return fmt.Sprintf("The new path already exists: %s", e.NewPath)
 }
 
@@ -16,7 +16,7 @@ func renameFile(renamer fileRenamer, opts renameOption) error {
 	oldPath, newPath := opts.OldPath, opts.NewPath
 
 	if renamer.Exists(newPath) {
-		return &newPathExistError{newPath}
+		return &NewPathExistError{newPath}
 	}
 
 	if opts.Dryrun {
