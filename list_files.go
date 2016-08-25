@@ -1,6 +1,7 @@
 package rnm
 
 import (
+	"path/filepath"
 	"strings"
 )
 
@@ -18,7 +19,8 @@ func listFiles(globber Globber, patterns []string, opts Option) (targetPaths []s
 
 	targetPaths = []string{}
 	for _, path := range matchedPaths {
-		if strings.Contains(path, opts.From) {
+		_, fileName := filepath.Split(path)
+		if strings.Contains(fileName, opts.From) {
 			targetPaths = append(targetPaths, path)
 		}
 	}
