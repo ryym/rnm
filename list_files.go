@@ -5,6 +5,33 @@ import (
 	"strings"
 )
 
+func listCandidates(globber Globber, patterns []string) (candidates []string, err error) {
+	candidates = []string{}
+	for _, pattern := range patterns {
+		paths, err := globber.Glob(pattern)
+		if err != nil {
+			return nil, err
+		}
+		candidates = append(candidates, paths...)
+	}
+
+	candidates = removeDuplicatePaths(candidates)
+	return candidates, err
+}
+
+func selectTargetPaths(converter converter, candidates []string) []string {
+	targets := []string{}
+
+	for _, path := range candidates {
+		_, fileName := filepath.Split(path)
+		if converter.isTarget(fileName) {
+			targets = append(targets, path)
+		}
+	}
+
+	return targets
+}
+
 func listFiles(globber Globber, patterns []string, opts Option) (targetPaths []string, err error) {
 	matchedPaths := []string{}
 	for _, pattern := range patterns {
