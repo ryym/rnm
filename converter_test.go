@@ -13,32 +13,32 @@ func TestStringConverter_convert(t *testing.T) {
 		"replace": {
 			"abc",
 			"bbc",
-			convertOption{"a", "b", false},
+			convertOption{"a", "b"},
 		},
 		"replace all matches": {
 			"ab-cd-ab-cd",
 			"ef-cd-ef-cd",
-			convertOption{"ab", "ef", false},
+			convertOption{"ab", "ef"},
 		},
 		"don't use regexp": {
 			"ggo.go",
 			"ggo",
-			convertOption{".go", "", false},
+			convertOption{".go", ""},
 		},
 		"be case sensitive": {
 			"aabbabab",
 			"AAbbabab",
-			convertOption{"aa", "AA", false},
+			convertOption{"aa", "AA"},
 		},
 		"do nothing if no match": {
 			"abcde",
 			"abcde",
-			convertOption{"xyz", "NEW", false},
+			convertOption{"xyz", "NEW"},
 		},
 		"don't care validity of file name": {
 			"file/name/*&%",
 			"dir/name/*&%",
-			convertOption{"file", "dir", false},
+			convertOption{"file", "dir"},
 		},
 	}
 
@@ -76,7 +76,7 @@ func TestStringConverter_isTarget(t *testing.T) {
 
 	for title, p := range testCases {
 		converter := stringConverter{
-			opts: convertOption{From: p.from, AsRegexp: false},
+			opts: convertOption{From: p.from},
 		}
 		actual := converter.isTarget(p.file)
 		if actual != p.expect {
@@ -99,27 +99,27 @@ func TestRegexpConverter_convert(t *testing.T) {
 		"replace all matches": {
 			"ab-cd-ab-cd",
 			"ef-cd-ef-cd",
-			convertOption{"ab", "ef", false},
+			convertOption{"ab", "ef"},
 		},
 		"use regexp": {
 			"ggo.go",
 			"",
-			convertOption{".go", "", false},
+			convertOption{".go", ""},
 		},
 		"use regexp 2": {
 			"some.file",
 			"pre-some.file",
-			convertOption{"^", "pre-", false},
+			convertOption{"^", "pre-"},
 		},
 		"do nothing if no match": {
 			"abcde",
 			"abcde",
-			convertOption{"xyz", "NEW", false},
+			convertOption{"xyz", "NEW"},
 		},
 		"don't care validity of file name": {
 			"file/name/*&%",
 			"dir/name/*&%",
-			convertOption{"file", "dir", false},
+			convertOption{"file", "dir"},
 		},
 	}
 
@@ -161,10 +161,7 @@ func TestRegexpConverter_isTarget(t *testing.T) {
 	}
 
 	for title, p := range testCases {
-		converter, _ := newRegexpConverter(convertOption{
-			From:     p.from,
-			AsRegexp: true,
-		})
+		converter, _ := newRegexpConverter(convertOption{From: p.from})
 		actual := converter.isTarget(p.file)
 		if actual != p.expect {
 			t.Errorf(

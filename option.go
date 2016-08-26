@@ -12,9 +12,8 @@ type HelpOption struct {
 }
 
 type convertOption struct {
-	From     string
-	To       string
-	AsRegexp bool
+	From string
+	To   string
 }
 
 type renameOption struct {

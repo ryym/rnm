@@ -21,9 +21,8 @@ func Exec(patterns []string, opts Option) (results []Result, err error) {
 	}
 
 	converter := stringConverter{convertOption{
-		From:     opts.From,
-		To:       opts.To,
-		AsRegexp: opts.AsRegexp,
+		From: opts.From,
+		To:   opts.To,
 	}}
 
 	targetPaths := selectTargetPaths(converter, candidates)
