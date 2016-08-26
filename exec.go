@@ -2,12 +2,39 @@ package rnm
 
 import (
 	"path/filepath"
+	"sort"
+	"strings"
 )
 
 type Result struct {
 	OldPath string
 	NewPath string
 	Error   error
+}
+
+type targetPaths []string
+
+func (paths targetPaths) Len() int {
+	return len(paths)
+}
+
+func (paths targetPaths) Swap(i, j int) {
+	paths[i], paths[j] = paths[j], paths[i]
+}
+
+// Ensure a directory is renamed after the files
+// it has are renamed:
+//   pic1 -> photo1
+//   pic2 -> photo2
+//   pics/pic3 -> pics/photo3
+//   pics/pic4 -> pics/photo4
+//   pics -> photos
+func (paths targetPaths) Less(i, j int) bool {
+	if strings.Contains(paths[i], paths[j]) {
+		return paths[i] > paths[j]
+	} else {
+		return paths[i] < paths[j]
+	}
 }
 
 func Exec(patterns []string, opts Option) (results []Result, err error) {
@@ -25,12 +52,13 @@ func Exec(patterns []string, opts Option) (results []Result, err error) {
 		return nil, err
 	}
 
-	targetPaths := selectTargetPaths(converter, candidates)
+	var paths targetPaths = selectTargetPaths(converter, candidates)
+	sort.Sort(paths)
 
-	results = make([]Result, len(targetPaths))
+	results = make([]Result, len(paths))
 	renamer := actualRenamer{}
 
-	for i, path := range targetPaths {
+	for i, path := range paths {
 		dirPath, fileName := filepath.Split(path)
 		newName := converter.convert(fileName)
 
