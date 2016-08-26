@@ -2,7 +2,6 @@ package rnm
 
 import (
 	"path/filepath"
-	"strings"
 )
 
 func listCandidates(globber Globber, patterns []string) (candidates []string, err error) {
@@ -30,29 +29,6 @@ func selectTargetPaths(converter converter, candidates []string) []string {
 	}
 
 	return targets
-}
-
-func listFiles(globber Globber, patterns []string, opts Option) (targetPaths []string, err error) {
-	matchedPaths := []string{}
-	for _, pattern := range patterns {
-		paths, err := globber.Glob(pattern)
-		if err != nil {
-			return nil, err
-		}
-		matchedPaths = append(matchedPaths, paths...)
-	}
-
-	matchedPaths = removeDuplicatePaths(matchedPaths)
-
-	targetPaths = []string{}
-	for _, path := range matchedPaths {
-		_, fileName := filepath.Split(path)
-		if strings.Contains(fileName, opts.From) {
-			targetPaths = append(targetPaths, path)
-		}
-	}
-
-	return targetPaths, err
 }
 
 func removeDuplicatePaths(paths []string) []string {

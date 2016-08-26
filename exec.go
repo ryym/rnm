@@ -15,23 +15,25 @@ func Exec(patterns []string, opts Option) (results []Result, err error) {
 		return []Result{}, nil
 	}
 
-	targetPaths, err := listFiles(zGlobber{}, patterns, opts)
-
+	candidates, err := listCandidates(zGlobber{}, patterns)
 	if err != nil {
 		return nil, err
 	}
+
+	converter := stringConverter{convertOption{
+		From:     opts.From,
+		To:       opts.To,
+		AsRegexp: opts.AsRegexp,
+	}}
+
+	targetPaths := selectTargetPaths(converter, candidates)
 
 	results = make([]Result, len(targetPaths))
 	renamer := actualRenamer{}
 
 	for i, path := range targetPaths {
 		dirPath, fileName := filepath.Split(path)
-
-		newName := convert(fileName, convertOption{
-			From:     opts.From,
-			To:       opts.To,
-			AsRegexp: opts.AsRegexp,
-		})
+		newName := converter.convert(fileName)
 
 		oldPath := dirPath + fileName
 		newPath := dirPath + newName
