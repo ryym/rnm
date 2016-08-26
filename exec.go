@@ -20,10 +20,10 @@ func Exec(patterns []string, opts Option) (results []Result, err error) {
 		return nil, err
 	}
 
-	converter := stringConverter{convertOption{
+	converter := newStringConverter(convertOption{
 		From: opts.From,
 		To:   opts.To,
-	}}
+	})
 
 	targetPaths := selectTargetPaths(converter, candidates)
 

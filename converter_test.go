@@ -43,7 +43,7 @@ func TestStringConverter_convert(t *testing.T) {
 	}
 
 	for title, p := range testCases {
-		converter := stringConverter{p.opts}
+		converter := newStringConverter(p.opts)
 		actual := converter.convert(p.file)
 		if actual != p.expect {
 			t.Errorf(
@@ -75,9 +75,7 @@ func TestStringConverter_isTarget(t *testing.T) {
 	}
 
 	for title, p := range testCases {
-		converter := stringConverter{
-			opts: convertOption{From: p.from},
-		}
+		converter := newStringConverter(convertOption{From: p.from})
 		actual := converter.isTarget(p.file)
 		if actual != p.expect {
 			t.Errorf(

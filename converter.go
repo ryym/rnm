@@ -14,6 +14,10 @@ type stringConverter struct {
 	opts convertOption
 }
 
+func newStringConverter(opts convertOption) stringConverter {
+	return stringConverter{opts}
+}
+
 func (sc stringConverter) isTarget(fileName string) bool {
 	return strings.Contains(fileName, sc.opts.From)
 }
