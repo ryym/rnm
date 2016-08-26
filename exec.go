@@ -20,10 +20,10 @@ func Exec(patterns []string, opts Option) (results []Result, err error) {
 		return nil, err
 	}
 
-	converter := newStringConverter(convertOption{
-		From: opts.From,
-		To:   opts.To,
-	})
+	converter, err := createConverter(opts)
+	if err != nil {
+		return nil, err
+	}
 
 	targetPaths := selectTargetPaths(converter, candidates)
 
@@ -51,4 +51,16 @@ func Exec(patterns []string, opts Option) (results []Result, err error) {
 	}
 
 	return results, nil
+}
+
+func createConverter(opts Option) (converter converter, err error) {
+	copts := convertOption{
+		From: opts.From,
+		To:   opts.To,
+	}
+	if opts.AsRegexp {
+		return newRegexpConverter(copts)
+	} else {
+		return newStringConverter(copts), nil
+	}
 }
