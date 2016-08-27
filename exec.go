@@ -37,7 +37,7 @@ func (paths targetPaths) Less(i, j int) bool {
 	}
 }
 
-func Exec(patterns []string, opts Option) (results []Result, err error) {
+func Exec(patterns []string, opts *Option) (results []Result, err error) {
 	if opts.From == opts.To {
 		return []Result{}, nil
 	}
@@ -56,7 +56,7 @@ func Exec(patterns []string, opts Option) (results []Result, err error) {
 	sort.Sort(paths)
 
 	results = make([]Result, len(paths))
-	renamer := actualRenamer{}
+	renamer := new(actualRenamer)
 
 	for i, path := range paths {
 		dirPath, fileName := filepath.Split(path)
@@ -65,7 +65,7 @@ func Exec(patterns []string, opts Option) (results []Result, err error) {
 		oldPath := dirPath + fileName
 		newPath := dirPath + newName
 
-		err := renameFile(renamer, renameOption{
+		err := renameFile(renamer, &renameOption{
 			OldPath: oldPath,
 			NewPath: newPath,
 			Dryrun:  opts.Dryrun,
@@ -81,7 +81,7 @@ func Exec(patterns []string, opts Option) (results []Result, err error) {
 	return results, nil
 }
 
-func createConverter(opts Option) (converter converter, err error) {
+func createConverter(opts *Option) (converter converter, err error) {
 	copts := convertOption{
 		From: opts.From,
 		To:   opts.To,

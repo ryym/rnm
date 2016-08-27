@@ -20,7 +20,7 @@ func TestExec(t *testing.T) {
 
 	Exec(
 		[]string{filepath.Join(testDir, "*.txt")},
-		Option{
+		&Option{
 			From: ".txt",
 			To:   "-new.txt",
 		},

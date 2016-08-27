@@ -9,10 +9,10 @@ import (
 )
 
 func main() {
-	opts := rnm.Option{}
-	helpOpts := rnm.HelpOption{}
+	opts := new(rnm.Option)
+	helpOpts := new(rnm.HelpOption)
 
-	parser := makeArgsParser(&opts, &helpOpts)
+	parser := makeArgsParser(opts, helpOpts)
 	patterns, err := parser.Parse()
 
 	if err != nil {

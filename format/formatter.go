@@ -5,10 +5,10 @@ import (
 	"github.com/ryym/rnm"
 )
 
-func FormatResults(results []rnm.Result, opts rnm.Option) string {
+func FormatResults(results []rnm.Result, opts *rnm.Option) string {
 	successes, fails := separateResults(results)
 
-	styler := &shellTextStyler{}
+	styler := new(shellTextStyler)
 
 	condition := formatCondition(opts)
 	msgSuccess := formatSuccesses(styler, successes)
@@ -17,7 +17,7 @@ func FormatResults(results []rnm.Result, opts rnm.Option) string {
 	return condition + msgSuccess + msgFails
 }
 
-func formatCondition(opts rnm.Option) string {
+func formatCondition(opts *rnm.Option) string {
 	if opts.Dryrun {
 		return "(Dryrun)\n"
 	}
